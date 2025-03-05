@@ -14,6 +14,8 @@ void DrawGrid(char grid [6][6]){
 }
 void Turn(){
     int counter = 0;
+void Turn(int counter){
+
     char letter;
     if(counter % 2 == 0){
         letter = 'A';
@@ -29,6 +31,11 @@ int main(){
     /*
     Test 2
     */
+   int counter = 0;
+   Turn(counter);
+
+    // while for multiple turns until grids are all done
+    // still need to increment counter 
 
      DrawGrid(grid);
     //Turn();
