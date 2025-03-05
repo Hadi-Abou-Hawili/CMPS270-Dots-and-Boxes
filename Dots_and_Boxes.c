@@ -26,7 +26,11 @@ void Turn(){
 
 int main(){
      char grid[6][6];
-
+    /*
+    adsfadsfadsf
+    adsfgaagasf
+    adfadsfadsf
+    */
 
      DrawGrid(grid);
     //Turn();
