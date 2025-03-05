@@ -27,9 +27,7 @@ void Turn(){
 int main(){
      char grid[6][6];
     /*
-    adsfadsfadsf
-    adsfgaagasf
-    adfadsfadsf
+    Test 2
     */
 
      DrawGrid(grid);
