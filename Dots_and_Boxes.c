@@ -32,6 +32,16 @@ void Turn(int counter){
     printf("Player %c's turn. Enter the row and column of the first dot (e.g., A0 -> 0 0) and second dot:\n", letter);
 }
 
+bool IsGameOver(int scores[ROWS][COLS]) {
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            if (scores[i][j] == 0) return false;  // If any box is unclaimed, game is not over
+        }
+    }
+    return true;
+}
+
+
 int main(){
      char grid[6][6];
     /*
