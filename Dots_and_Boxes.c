@@ -1,4 +1,10 @@
 #include <stdio.h>
+#include <stdbool.h>
+ 
+#define ROWS 4  // Number of boxes vertically
+#define COLS 5  // Number of boxes horizontally
+#define DOTS_ROWS (ROWS + 1)  // 1 more row for dots than boxes
+#define DOTS_COLS (COLS + 1)  // 1 more column for dots than boxes
 
 void DrawGrid(char grid [6][6]){
     printf("*******************************************************\n  0 1 2 3 4 5\n");
