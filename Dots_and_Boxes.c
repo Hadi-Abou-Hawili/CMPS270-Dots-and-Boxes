@@ -41,6 +41,28 @@ bool IsGameOver(int scores[ROWS][COLS]) {
     return true;
 }
 
+void DeclareWinner(int scores[ROWS][COLS]) {
+    int scoreA = 0;
+    int scoreB = 0;
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            if (scores[i][j] == 1) scoreA++;
+            if (scores[i][j] == 2) scoreB++;
+        }
+    }
+    printf("\nGame Over!\n");
+    printf("Player A: %d boxes\n", scoreA);
+    printf("Player B: %d boxes\n", scoreB);
+    
+    if (scoreA > scoreB) {
+        printf("Player A Wins!\n");
+    } else if (scoreB > scoreA) {
+        printf("Player B Wins!\n");
+    } else {
+        printf("It's a Draw!\n");
+    }
+}
+
 
 int main(){
      char grid[6][6];
