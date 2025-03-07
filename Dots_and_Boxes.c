@@ -57,7 +57,7 @@ if ( col1 == col2 && row1 + 2 == row2 ){
 }
 }
 }
-}
+
 
 void DeclareWinner(int scores[ROWS][COLS]) {
     int scoreA = 0;
