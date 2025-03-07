@@ -41,18 +41,18 @@ bool IsGameOver(int scores[ROWS][COLS]) {
     return true;
 }
 
-int PlaceLine(char grid [ROWS][COLS] , int x1 , int x2 , int y1 , int y2 , char currentPlayer  ){
+int PlaceLine( int x1 , int x2 , int y1 , int y2,char grid[6][6] ){
 int row1 = x1 * 2;
 int col1 = y1 * 2;
 int row2 = x2 * 2;
 int col2 = y2 * 2;
-if (row 1 == row2 && clo1 + 2 == col2 ) {
-    if (board[row1][(col1 + col2) / 2] == ' ') {
-    grid[row1][(col1 + col2) / 2 ] = '-'  ;     // horizontal line since having different columns 
+if (row1 == row2 && col1 + 2 == col2 ) {
+    if (grid[row1][(col1 + col2) / 2] == ' ') {
+    grid[row1][(col1 + col2) / 2 ] = '-';     // horizontal line since having different columns 
 }
 }
 if ( col1 == col2 && row1 + 2 == row2 ){
-    if (board[(row1 + row2) / 2][col1] == ' ') {
+    if (grid[(row1 + row2) / 2][col1] == ' ') {
     grid[(row1 + row2 ) / 2 ][col1] = '|';      // wertical line same columns 
 }
 }
