@@ -94,5 +94,6 @@ int main(){
     // still need to increment counter 
 
      DrawGrid(grid);
+
     //Turn();
 }
