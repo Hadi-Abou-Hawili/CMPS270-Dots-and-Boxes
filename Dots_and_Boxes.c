@@ -18,11 +18,11 @@ void DrawGrid(char grid [6][6]){
     //     printf("%d . . . . . .\n", i);
     // }
 }
-void Turn(){
-    int counter = 0;
+
 void Turn(int counter){
 
     char letter;
+
     if(counter % 2 == 0){
         letter = 'A';
     }
