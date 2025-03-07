@@ -6,17 +6,23 @@
 #define DOTS_ROWS (ROWS + 1)  // 1 more row for dots than boxes
 #define DOTS_COLS (COLS + 1)  // 1 more column for dots than boxes
 
-void DrawGrid(char grid [6][6]){
-    printf("*******************************************************\n  0 1 2 3 4 5\n");
-    // for(int i = 0; i <= 5; i++){
-    //     for(int j = 0; j <= 5; j++){
-    //         grid[i][j] = ''
-    //     }
-    // }
-    
-    // for(int i = 0; i <= 5; i++){
-    //     printf("%d . . . . . .\n", i);
-    // }
+void DrawGrid() {
+
+    printf("\n  ");  // Extra spaces for alignment
+
+    for (int j = 0; j < DOTS_COLS; j++) printf("%d   ", j); 
+     
+    printf("\n");
+
+    for (int i = 0; i < DOTS_ROWS * 2 - 1; i++) {
+        if (i % 2 == 0) printf("%d ", i / 2);  
+        else printf("  ");  
+
+        for (int j = 0; j < DOTS_COLS * 2 - 1; j++) {
+            printf("%c ", grid[i][j]);
+        }
+        printf("\n");
+    }
 }
 
 void Turn(int counter){
