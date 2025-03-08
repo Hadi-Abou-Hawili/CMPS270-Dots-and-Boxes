@@ -76,14 +76,14 @@ bool IsGameOver(int scores[ROWS][COLS]) {
     return true;
 }
 
-int PlaceLine( int x1 , int x2 , int y1 , int y2, char grid[DOTS_ROWS * 2 - 1][DOTS_COLS * 2 - 1] ){
+int PlaceLine( int x1 , int y1 , int x2 , int y2, char grid[DOTS_ROWS * 2 - 1][DOTS_COLS * 2 - 1] ){
 int row1 = x1 * 2;
 int col1 = y1 * 2;
 int row2 = x2 * 2;
 int col2 = y2 * 2;
 if (row1 == row2 && col1 + 2 == col2 ) {
     if (grid[row1][(col1 + col2) / 2] == ' ') {
-    grid[row1][(col1 + col2) / 2 ] = '-';
+    grid[row1][(col1 + col2) / 2 ] = '_';
     return 1;     // horizontal line since having different columns 
 }
 }
