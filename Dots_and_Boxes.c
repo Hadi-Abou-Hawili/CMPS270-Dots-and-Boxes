@@ -85,16 +85,17 @@ bool CheckForBox(int x, int y, char player)
     int row = x * 2, col = y * 2;
     if (row > 0 && row < DOTS_ROWS * 2 - 2 && col > 0 && col < DOTS_COLS * 2 - 2)
     {
-        if (grid[row - 1][col] != ' ' && grid[row + 1][col] != ' ' &&
-            grid[row][col - 1] != ' ' && grid[row][col + 1] != ' ')
+        if (grid[row][col+1] != ' ' && grid[row + 2][col+1] != ' ' &&
+            grid[row+1][col] != ' ' && grid[row+1][col+2] != ' ')
         {
             scores[x][y] = (player == 'A') ? 1 : 2;
-            grid[row][col] = player;
+            grid[row+1][col+1] = player;
             return true;
         }
     }
     return false;
 }
+
 
 bool IsGameOver()
 {
