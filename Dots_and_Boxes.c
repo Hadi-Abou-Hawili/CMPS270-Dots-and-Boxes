@@ -82,14 +82,14 @@ void Turn(int counter, int *x1, int *y1, int *x2, int *y2)
 
 bool CheckForBox(int x, int y, char player)
 {
-    int row = x * 2, col = y * 2;
+    int row = x * 2 + 1, col = y * 2 + 1;
     if (row > 0 && row < DOTS_ROWS * 2 - 2 && col > 0 && col < DOTS_COLS * 2 - 2)
     {
-        if (grid[row][col+1] != ' ' && grid[row + 2][col+1] != ' ' &&
-            grid[row+1][col] != ' ' && grid[row+1][col+2] != ' ')
+        if (grid[row - 1][col] != ' ' && grid[row + 1][col] != ' ' &&
+            grid[row][col - 1] != ' ' && grid[row][col+1] != ' ')
         {
             scores[x][y] = (player == 'A') ? 1 : 2;
-            grid[row+1][col+1] = player;
+            grid[row][col] = player;
             return true;
         }
     }
