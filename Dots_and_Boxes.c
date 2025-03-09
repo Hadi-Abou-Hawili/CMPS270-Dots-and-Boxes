@@ -116,7 +116,16 @@ bool PlaceLine(int x1, int y1, int x2, int y2) {
         int r = y_coordinate * 2 + 1;
         int c = x1 * 2;
         if (grid[r][c] == ' ') {
-            grid[r][c] = '-';
+            grid[r][c] = '_';
+            return true;
+        }
+    }
+    else if (y1 == y2) { // Vertical line
+        int x_coordinate = (x1 < x2) ? x1 : x2;
+        int r = x_coordinate * 2 + 1;
+        int c = y1 * 2;
+        if (grid[r][c] == ' ') {
+            grid[r][c] = '|';
             return true;
         }
     }
