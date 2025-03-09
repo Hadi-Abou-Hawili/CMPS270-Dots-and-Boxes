@@ -52,17 +52,24 @@ void Turn(int counter, int *x1, int *y1, int *x2, int *y2)
 {
 
     char player;
+if (counter % 2 == 0) {
+    player = 'A';
+} else {
+    player = 'B';
+}
 
-    if (counter % 2 == 0)
-    {
-        player = 'A';
-    }
-    else
-    {
-        player = 'B';
-    }
-    printf("Player %c's turn. Enter the row and column of the first dot (e.g., A0 -> 0 0) and second dot:\n", player);
-    scanf("%d %d %d %d", x1, y1, x2, y2);
+
+    
+        printf("Player %c's turn. Enter the row and column of the first dot (e.g., A0 -> 0 0) and second dot:\n", player);
+        while(1){
+                scanf("%d %d %d %d", x1, y1, x2, y2);
+
+                if(*x1<0 || *x1 >= DOTS_ROWS || *y1 <0 || *y1 >= DOTS_COLS || *x2 < 0 || *x2 >=DOTS_ROWS || *y2 <0 || *y2 >= DOTS_COLS)
+
+        }
+
+
+
 }
 
 bool CheckForBox(int x, int y, char player)
