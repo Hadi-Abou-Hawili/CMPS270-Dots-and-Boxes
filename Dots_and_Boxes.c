@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #define ROWS 4               // Number of boxes vertically
 #define COLS 5               // Number of boxes horizontally
@@ -52,31 +53,31 @@ void Turn(int counter, int *x1, int *y1, int *x2, int *y2)
 {
 
     char player;
-if (counter % 2 == 0) {
-    player = 'A';
-} else {
-    player = 'B';
-}
+    if (counter % 2 == 0)
+    {
+        player = 'A';
+    }
+    else
+    {
+        player = 'B';
+    }
 
+    printf("Player %c's turn. Enter the row and column of the first dot (e.g., A0 -> 0 0) and second dot:\n", player);
+    while (1)
+    {
+        scanf("%d %d %d %d", x1, y1, x2, y2);
 
-    
-        printf("Player %c's turn. Enter the row and column of the first dot (e.g., A0 -> 0 0) and second dot:\n", player);
-        while(1){
-                scanf("%d %d %d %d", x1, y1, x2, y2);
-
-                if(*x1<0 || *x1 >= DOTS_ROWS || *y1 <0 || *y1 >= DOTS_COLS || *x2 < 0 || *x2 >=DOTS_ROWS || *y2 <0 || *y2 >= DOTS_COLS){
-                    printf("Invalid coordinates. Try again.\n");
-                    continue;
-                }
-
-                if((*x1 == *x2 && abs(*y1 -*y2)== 1) || (*y1 == *y2 && abs (*x1 - *x2)==1))
-break;
-
-printf("Dots must be adjacent. Try again\n");
+        if (*x1 < 0 || *x1 >= DOTS_ROWS || *y1 < 0 || *y1 >= DOTS_COLS || *x2 < 0 || *x2 >= DOTS_ROWS || *y2 < 0 || *y2 >= DOTS_COLS)
+        {
+            printf("Invalid coordinates. Try again.\n");
+            continue;
         }
 
+        if ((*x1 == *x2 && abs(*y1 - *y2) == 1) || (*y1 == *y2 && abs(*x1 - *x2) == 1))
+            break;
 
-
+        printf("Dots must be adjacent. Try again\n");
+    }
 }
 
 bool CheckForBox(int x, int y, char player)
@@ -190,30 +191,36 @@ int main()
         DrawGrid();
         currentplayer = (turn % 2 == 0) ? 'A' : 'B';
         Turn(turn, &x1, &y1, &x2, &y2);
-        if (PlaceLine(x1, y1, x2, y2)) {
+        if (PlaceLine(x1, y1, x2, y2, grid))
+        {
             bool boxCompleted = false;
 
-            if (x1 == x2) { 
+            if (x1 == x2)
+            {
                 int y = (y1 < y2) ? y1 : y2;
 
-                if (x1 > 0) 
-                    boxCompleted |= CheckForBox(x1 - 1, y, currentPlayer);
-             
-                if (x1 < ROWS) 
-                    boxCompleted |= CheckForBox(x1, y, currentPlayer);
-            } else { 
+                if (x1 > 0)
+                    boxCompleted |= CheckForBox(x1 - 1, y, currentplayer);
+
+                if (x1 < ROWS)
+                    boxCompleted |= CheckForBox(x1, y, currentplayer);
+            }
+            else
+            {
                 int x = (x1 < x2) ? x1 : x2;
-             
-                if (y1 > 0) 
-                    boxCompleted |= CheckForBox(x, y1 - 1, currentPlayer);
-              
-                if (y1 < COLS) 
-                    boxCompleted |= CheckForBox(x, y1, currentPlayer);
+
+                if (y1 > 0)
+                    boxCompleted |= CheckForBox(x, y1 - 1, currentplayer);
+
+                if (y1 < COLS)
+                    boxCompleted |= CheckForBox(x, y1, currentplayer);
             }
 
             if (!boxCompleted)
                 turn++;
-        } else {
+        }
+        else
+        {
             printf("Invalid move. Try again.\n");
         }
     }
