@@ -81,7 +81,7 @@ bool CheckForBox(int x, int y, char player)
     return false;
 }
 
-bool IsGameOver(int scores[ROWS][COLS])
+bool IsGameOver()
 {
     for (int i = 0; i < ROWS; i++)
     {
@@ -133,7 +133,7 @@ int PlaceLine(int x1, int y1, int x2, int y2, char grid[DOTS_ROWS * 2 - 1][DOTS_
     return 0;
 }
 
-void DeclareWinner(int scores[ROWS][COLS])
+void DeclareWinner()
 {
     int scoreA = 0;
     int scoreB = 0;
@@ -169,25 +169,42 @@ int main()
 {
     InitializeGrid();
     int turn = 0, x1, y1, x2, y2;
-    char player;
+    char currentplayer;
 
-    while (!IsGameOver(scores))
+    while (!IsGameOver())
     {
         DrawGrid();
+        currentplayer = (turn % 2 == 0) ? 'A' : 'B';
         Turn(turn, &x1, &y1, &x2, &y2);
+        if (PlaceLine(x1, y1, x2, y2)) {
+            bool boxCompleted = false;
 
-        if (PlaceLine(x1, y1, x2, y2, grid))
-        {
-            if (!CheckForBox(x1, y1, player) && !CheckForBox(x2, y2, player))
+            if (x1 == x2) { 
+                int y = (y1 < y2) ? y1 : y2;
+
+                if (x1 > 0) 
+                    boxCompleted |= CheckForBox(x1 - 1, y, currentPlayer);
+             
+                if (x1 < ROWS) 
+                    boxCompleted |= CheckForBox(x1, y, currentPlayer);
+            } else { 
+                int x = (x1 < x2) ? x1 : x2;
+             
+                if (y1 > 0) 
+                    boxCompleted |= CheckForBox(x, y1 - 1, currentPlayer);
+              
+                if (y1 < COLS) 
+                    boxCompleted |= CheckForBox(x, y1, currentPlayer);
+            }
+
+            if (!boxCompleted)
                 turn++;
-        }
-        else
-        {
-            printf("Invalid move, try again.\n");
+        } else {
+            printf("Invalid move. Try again.\n");
         }
     }
 
     DrawGrid();
-    DeclareWinner(scores);
+    DeclareWinner();
     return 0;
 }
