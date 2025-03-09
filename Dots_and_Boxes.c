@@ -112,11 +112,11 @@ bool IsGameOver()
 bool PlaceLine(int x1, int y1, int x2, int y2) {
     // Ensure the line is either horizontal or vertical and adjacent
     if (x1 == x2) { // Horizontal line
-        int minY = (y1 < y2) ? y1 : y2;
-        int lineCol = minY * 2 + 1;
-        int lineRow = x1 * 2;
-        if (grid[lineRow][lineCol] == ' ') {
-            grid[lineRow][lineCol] = '-';
+        int y_coordinate = (y1 < y2) ? y1 : y2;
+        int r = y_coordinate * 2 + 1;
+        int c = x1 * 2;
+        if (grid[r][c] == ' ') {
+            grid[r][c] = '-';
             return true;
         }
     }
