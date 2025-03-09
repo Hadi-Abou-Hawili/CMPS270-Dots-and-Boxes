@@ -109,22 +109,27 @@ bool IsGameOver()
     return true;
 }
 
-bool PlaceLine(int x1, int y1, int x2, int y2) {
+bool PlaceLine(int x1, int y1, int x2, int y2)
+{
     // Ensure the line is either horizontal or vertical and adjacent
-    if (x1 == x2) { // Horizontal line
+    if (x1 == x2)
+    { // Horizontal line
         int y_coordinate = (y1 < y2) ? y1 : y2;
         int r = y_coordinate * 2 + 1;
         int c = x1 * 2;
-        if (grid[r][c] == ' ') {
+        if (grid[r][c] == ' ')
+        {
             grid[r][c] = '_';
             return true;
         }
     }
-    else if (y1 == y2) { // Vertical line
+    else if (y1 == y2)
+    { // Vertical line
         int x_coordinate = (x1 < x2) ? x1 : x2;
         int r = x_coordinate * 2 + 1;
         int c = y1 * 2;
-        if (grid[r][c] == ' ') {
+        if (grid[r][c] == ' ')
+        {
             grid[r][c] = '|';
             return true;
         }
