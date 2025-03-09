@@ -138,6 +138,24 @@ bool PlaceLine(int x1, int y1, int x2, int y2)
     return false;
 }
 
+void Displayscores(){
+    int scoreA = 0 ;
+    int scoreB = 0 ;
+    for(int i = 0 ; i < ROWS ; i++){
+        for(int j = 0 ; j < COLS ; j++){
+            if (scores[i][j]== 1 )
+            scoreA++; 
+            else if (scores[i][j] == 2 )
+            scoreB++
+        }
+    }
+    printf("\nCurrent Score:\n");
+    printf("Player A: %d boxes\n", scoreA);
+    printf("Player B: %d boxes\n", scoreB);
+
+
+}
+
 void DeclareWinner()
 {
     int scoreA = 0;
@@ -179,6 +197,7 @@ int main()
     while (!IsGameOver())
     {
         DrawGrid();
+        Displayscores();
         currentplayer = (turn % 2 == 0) ? 'A' : 'B';
         Turn(turn, &x1, &y1, &x2, &y2);
         if (PlaceLine(x1, y1, x2, y2))
