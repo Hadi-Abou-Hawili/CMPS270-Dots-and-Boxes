@@ -109,43 +109,18 @@ bool IsGameOver()
     return true;
 }
 
-int PlaceLine(int x1, int y1, int x2, int y2, char grid[DOTS_ROWS * 2 - 1][DOTS_COLS * 2 - 1])
-{
-    int row1 = x1 * 2;
-    int col1 = y1 * 2;
-    int row2 = x2 * 2;
-    int col2 = y2 * 2;
-
-    if (row1 > row2)
-    {
-        int temp = row1;
-        row1 = row2;
-        row2 = temp;
-    }
-    if (col1 > col2)
-    {
-        int temp = col1;
-        col1 = col2;
-        col2 = temp;
-    }
-
-    if (row1 == row2 && col1 + 2 == col2)
-    {
-        if (grid[row1][(col1 + col2) / 2] == ' ')
-        {
-            grid[row1][(col1 + col2) / 2] = '_';
-            return 1; // horizontal line since having different columns
+bool PlaceLine(int x1, int y1, int x2, int y2) {
+    // Ensure the line is either horizontal or vertical and adjacent
+    if (x1 == x2) { // Horizontal line
+        int minY = (y1 < y2) ? y1 : y2;
+        int lineCol = minY * 2 + 1;
+        int lineRow = x1 * 2;
+        if (grid[lineRow][lineCol] == ' ') {
+            grid[lineRow][lineCol] = '-';
+            return true;
         }
     }
-    if (col1 == col2 && row1 + 2 == row2)
-    {
-        if (grid[(row1 + row2) / 2][col1] == ' ')
-        {
-            grid[(row1 + row2) / 2][col1] = '|';
-            return 1; // wertical line same columns
-        }
-    }
-    return 0;
+    return false;
 }
 
 void DeclareWinner()
@@ -191,7 +166,7 @@ int main()
         DrawGrid();
         currentplayer = (turn % 2 == 0) ? 'A' : 'B';
         Turn(turn, &x1, &y1, &x2, &y2);
-        if (PlaceLine(x1, y1, x2, y2, grid))
+        if (PlaceLine(x1, y1, x2, y2))
         {
             bool boxCompleted = false;
 
