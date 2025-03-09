@@ -64,8 +64,15 @@ if (counter % 2 == 0) {
         while(1){
                 scanf("%d %d %d %d", x1, y1, x2, y2);
 
-                if(*x1<0 || *x1 >= DOTS_ROWS || *y1 <0 || *y1 >= DOTS_COLS || *x2 < 0 || *x2 >=DOTS_ROWS || *y2 <0 || *y2 >= DOTS_COLS)
+                if(*x1<0 || *x1 >= DOTS_ROWS || *y1 <0 || *y1 >= DOTS_COLS || *x2 < 0 || *x2 >=DOTS_ROWS || *y2 <0 || *y2 >= DOTS_COLS){
+                    printf("Invalid coordinates. Try again.\n");
+                    continue;
+                }
 
+                if((*x1 == *x2 && abs(*y1 -*y2)== 1) || (*y1 == *y2 && abs (*x1 - *x2)==1))
+break;
+
+printf("Dots must be adjacent. Try again\n");
         }
 
 
