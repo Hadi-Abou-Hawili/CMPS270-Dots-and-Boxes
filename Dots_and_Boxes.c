@@ -146,7 +146,7 @@ void Displayscores(){
             if (scores[i][j]== 1 )
             scoreA++; 
             else if (scores[i][j] == 2 )
-            scoreB++
+            scoreB++;
         }
     }
     printf("\nCurrent Score:\n");
