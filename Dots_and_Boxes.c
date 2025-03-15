@@ -188,20 +188,24 @@ void DeclareWinner()
     }
 }
 
+char ChooseGameMode() {
+    char choice;
+    printf("Choose game mode:\n");
+    printf("Enter 'B' to play against Bot or 'H' for Human vs Human:\n");
+    scanf(" %c", &choice);
+    return choice;
+}
+
 int main()
 {
     InitializeGrid();
     int turn = 0, x1, y1, x2, y2;
     char currentplayer;
 
-    bool playAgainstBot = false; //option to choose to play vs human or bot game
-
-    printf("Choose game mode:\n");
-    printf("Enter 'B' to play against Bot or 'H' for Human vs Human:\n");
-
-    char choice;
-    scanf(" %c", &choice);
-
+    bool playAgainstBot = false;
+    
+    char choice = ChooseGameMode();
+    
     if (choice == 'B' || choice == 'b') {
         playAgainstBot = true;
     }
