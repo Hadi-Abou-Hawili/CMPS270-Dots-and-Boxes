@@ -196,6 +196,48 @@ char ChooseGameMode() {
     return choice;
 }
 
+void RandBot(int *x1, int *y1, int *x2, int *y2)
+{
+    int PossibleMoves[DOTS_ROWS * DOTS_COLS * 2][4]; //Maximum possible moves
+    int moveCount = 0;
+
+    //wE will scan the grid for possible moves horizontally and vertically
+    for (int i = 0; i < DOTS_ROWS; i++)
+    {
+        for (int j = 0; j < DOTS_COLS; j++)
+        {
+            //horiz
+            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ')
+            {
+                PossibleMoves[moveCount][0] = i;
+                PossibleMoves[moveCount][1] = j;
+                PossibleMoves[moveCount][2] = i;
+                PossibleMoves[moveCount][3] = j + 1;
+                moveCount++;
+            }
+            //vert
+            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ')
+            {
+                PossibleMoves[moveCount][0] = i;
+                PossibleMoves[moveCount][1] = j;
+                PossibleMoves[moveCount][2] = i + 1;
+                PossibleMoves[moveCount][3] = j;
+                moveCount++;
+            }
+        }
+    }
+
+    if (moveCount > 0)
+    {
+        int randomIndex = rand() % moveCount;
+        *x1 = PossibleMoves[randomIndex][0];
+        *y1 = PossibleMoves[randomIndex][1];
+        *x2 = PossibleMoves[randomIndex][2];
+        *y2 = PossibleMoves[randomIndex][3];
+    }
+}
+
+
 int main()
 {
     InitializeGrid();
@@ -217,6 +259,7 @@ int main()
         playAgainstBot = false; 
     }
 
+    bool boxCompleted = false;
 
     while (!IsGameOver())
     {
@@ -228,10 +271,9 @@ int main()
         if (playAgainstBot && ((currentplayer == 'A' && botIsPlayerA) || (currentplayer == 'B' && !botIsPlayerA))) {
 
             RandBot(&x1, &y1, &x2, &y2); // Bot's move
-
+            printf("Bot (%c) played: (%d, %d) -> (%d, %d)\n", currentplayer, x1, y1, x2, y2);
         } 
         else {
-            
             Turn(turn, &x1, &y1, &x2, &y2); // Human's move
         }
 
@@ -240,7 +282,7 @@ int main()
 
         if (PlaceLine(x1, y1, x2, y2))
         {
-            bool boxCompleted = false;
+            boxCompleted = false;
 
             if (x1 == x2)
             {
