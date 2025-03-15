@@ -203,19 +203,41 @@ int main()
     char currentplayer;
 
     bool playAgainstBot = false;
+    bool botIsPlayerA = false;
     
     char choice = ChooseGameMode();
-    
+
     if (choice == 'B' || choice == 'b') {
         playAgainstBot = true;
+        botIsPlayerA = (rand() % 2 == 0);
+    } 
+
+    else {
+
+        playAgainstBot = false; 
     }
+
 
     while (!IsGameOver())
     {
         DrawGrid();
         Displayscores();
         currentplayer = (turn % 2 == 0) ? 'A' : 'B';
-        Turn(turn, &x1, &y1, &x2, &y2);
+
+
+        if (playAgainstBot && ((currentplayer == 'A' && botIsPlayerA) || (currentplayer == 'B' && !botIsPlayerA))) {
+
+            RandBot(&x1, &y1, &x2, &y2); // Bot's move
+
+        } 
+        else {
+            
+            Turn(turn, &x1, &y1, &x2, &y2); // Human's move
+        }
+
+
+
+
         if (PlaceLine(x1, y1, x2, y2))
         {
             bool boxCompleted = false;
