@@ -97,7 +97,6 @@ bool CheckForBox(int x, int y, char player)
 }
 
 
-
 bool IsGameOver()
 {
     for (int i = 0; i < ROWS; i++)
@@ -194,6 +193,18 @@ int main()
     InitializeGrid();
     int turn = 0, x1, y1, x2, y2;
     char currentplayer;
+
+    bool playAgainstBot = false; //option to choose to play vs human or bot game
+
+    printf("Choose game mode:\n");
+    printf("Enter 'B' to play against Bot or 'H' for Human vs Human:\n");
+
+    char choice;
+    scanf(" %c", &choice);
+
+    if (choice == 'B' || choice == 'b') {
+        playAgainstBot = true;
+    }
 
     while (!IsGameOver())
     {
