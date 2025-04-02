@@ -193,8 +193,40 @@ char ChooseGameMode() {
     printf("Choose game mode:\n");
     printf("Enter 'B' to play against Bot or 'H' for Human vs Human:\n");
     scanf(" %c", &choice);
+    choice = toupper(choice);
+    
+    if ( choice == 'B') {
+        Printf("Choose bot difficulty: \n");
+        Printf("E for Easy Mode \n");
+        Printf("M for Medium Mode \n");
+        scanf(" %c", &choice);
+        choice = toupper(choice);
+
+        *botPlayer = (rand() % 2 == 0) ? 'A' : 'B';
+        printf("Bot will be Player %c\n", *botPlayer);
+    }
+    
     return choice;
 }
+
+
+void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
+{
+    
+    for (int i = 0; i < DOTS_ROWS; i++) {
+        for (int j = 0; j < DOTS_COLS; j++) {
+           
+            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ') {
+                int boxesCompleted = 0;
+                
+                if (i > 0) {
+                    int top = (i - 1) * 2 + 1;
+                    int left = j * 2 + 1;
+                    if (grid[top][left - 1] != ' ' && grid[top][left + 1] != ' ' && grid[top - 1][left] != ' ') {
+                        boxesCompleted++;
+                    }
+                }
+
 
 void RandBot(int *x1, int *y1, int *x2, int *y2)
 {
@@ -243,22 +275,11 @@ int main()
     InitializeGrid();
     int turn = 0, x1, y1, x2, y2;
     char currentplayer;
+    char botPlayer = ' ';
+    char gameMode = ' ';
 
-    bool playAgainstBot = false;
-    bool botIsPlayerA = false;
-    
-    char choice = ChooseGameMode();
-
-    if (choice == 'B' || choice == 'b') {
-        playAgainstBot = true;
-        botIsPlayerA = (rand() % 2 == 0);
-    } 
-
-    else {
-
-        playAgainstBot = false; 
-    }
-
+    gameMode = ChooseGameMode(&botPlayer);
+    bool playAgainstBot = (gameMode == 'E' || gameMode == 'M');
     bool boxCompleted = false;
 
     while (!IsGameOver())
@@ -268,9 +289,12 @@ int main()
         currentplayer = (turn % 2 == 0) ? 'A' : 'B';
 
 
-        if (playAgainstBot && ((currentplayer == 'A' && botIsPlayerA) || (currentplayer == 'B' && !botIsPlayerA))) {
-
-            RandBot(&x1, &y1, &x2, &y2); // Bot's move
+        if (playAgainstBot && currentplayer == botPlayer) {
+            if (gameMode == 'E') {
+                RandBot(&x1, &y1, &x2, &y2); // Easy bot
+            } else {
+                MediumBot(&x1, &y1, &x2, &y2, botPlayer); // Medium bot
+            }
             printf("Bot (%c) played: (%d, %d) -> (%d, %d)\n", currentplayer, x1, y1, x2, y2);
         } 
         else {
