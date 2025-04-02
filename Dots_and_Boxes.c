@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #define ROWS 4               // Number of boxes vertically
 #define COLS 5               // Number of boxes horizontally
@@ -196,9 +197,9 @@ char ChooseGameMode(char *botPlayer) {
     choice = toupper(choice);
     
     if ( choice == 'B') {
-        Printf("Choose bot difficulty: \n");
-        Printf("E for Easy Mode \n");
-        Printf("M for Medium Mode \n");
+        printf("Choose bot difficulty: \n");
+        printf("E for Easy Mode \n");
+        printf("M for Medium Mode \n");
         scanf(" %c", &choice);
         choice = toupper(choice);
 
@@ -209,6 +210,46 @@ char ChooseGameMode(char *botPlayer) {
     return choice;
 }
 
+void RandBot(int *x1, int *y1, int *x2, int *y2)
+{
+    int PossibleMoves[DOTS_ROWS * DOTS_COLS * 2][4]; //Maximum possible moves
+    int moveCount = 0;
+
+    //We will scan the grid for possible moves horizontally and vertically
+    for (int i = 0; i < DOTS_ROWS; i++)
+    {
+        for (int j = 0; j < DOTS_COLS; j++)
+        {
+            //Horizontal
+            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ')
+            {
+                PossibleMoves[moveCount][0] = i;
+                PossibleMoves[moveCount][1] = j;
+                PossibleMoves[moveCount][2] = i;
+                PossibleMoves[moveCount][3] = j + 1;
+                moveCount++;
+            }
+            //Vertical
+            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ')
+            {
+                PossibleMoves[moveCount][0] = i;
+                PossibleMoves[moveCount][1] = j;
+                PossibleMoves[moveCount][2] = i + 1;
+                PossibleMoves[moveCount][3] = j;
+                moveCount++;
+            }
+        }
+    }
+
+    if (moveCount > 0)
+    {
+        int randomIndex = rand() % moveCount;
+        *x1 = PossibleMoves[randomIndex][0];
+        *y1 = PossibleMoves[randomIndex][1];
+        *x2 = PossibleMoves[randomIndex][2];
+        *y2 = PossibleMoves[randomIndex][3];
+    }
+}
 
 void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
 {
@@ -275,49 +316,6 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
 
     RandBot(x1, y1, x2, y2);
 }
-
-
-void RandBot(int *x1, int *y1, int *x2, int *y2)
-{
-    int PossibleMoves[DOTS_ROWS * DOTS_COLS * 2][4]; //Maximum possible moves
-    int moveCount = 0;
-
-    //wE will scan the grid for possible moves horizontally and vertically
-    for (int i = 0; i < DOTS_ROWS; i++)
-    {
-        for (int j = 0; j < DOTS_COLS; j++)
-        {
-            //horiz
-            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ')
-            {
-                PossibleMoves[moveCount][0] = i;
-                PossibleMoves[moveCount][1] = j;
-                PossibleMoves[moveCount][2] = i;
-                PossibleMoves[moveCount][3] = j + 1;
-                moveCount++;
-            }
-            //vert
-            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ')
-            {
-                PossibleMoves[moveCount][0] = i;
-                PossibleMoves[moveCount][1] = j;
-                PossibleMoves[moveCount][2] = i + 1;
-                PossibleMoves[moveCount][3] = j;
-                moveCount++;
-            }
-        }
-    }
-
-    if (moveCount > 0)
-    {
-        int randomIndex = rand() % moveCount;
-        *x1 = PossibleMoves[randomIndex][0];
-        *y1 = PossibleMoves[randomIndex][1];
-        *x2 = PossibleMoves[randomIndex][2];
-        *y2 = PossibleMoves[randomIndex][3];
-    }
-}
-
 
 int main()
 {
