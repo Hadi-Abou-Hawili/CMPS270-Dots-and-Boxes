@@ -188,7 +188,7 @@ void DeclareWinner()
     }
 }
 
-char ChooseGameMode() {
+char ChooseGameMode(char *botPlayer) {
     char choice;
     printf("Choose game mode:\n");
     printf("Enter 'B' to play against Bot or 'H' for Human vs Human:\n");
@@ -226,6 +226,55 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
                         boxesCompleted++;
                     }
                 }
+
+                if (i < ROWS) {
+                    int bottom = (i) * 2 + 1;
+                    int left = j * 2 + 1;
+                    if (grid[bottom][left - 1] != ' ' && grid[bottom][left + 1] != ' ' && grid[bottom + 1][left] != ' ') {
+                        boxesCompleted++;
+                    }
+                }
+                
+                if (boxesCompleted > 0) {
+                    *x1 = i;
+                    *y1 = j;
+                    *x2 = i;
+                    *y2 = j + 1;
+                    return;
+                }
+            }
+
+            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ') {
+                int boxesCompleted = 0;     
+               
+                if (j > 0) {
+                    int center = (i) * 2 + 1;
+                    int left = (j - 1) * 2 + 1;
+                    if (grid[center - 1][left] != ' ' && grid[center + 1][left] != ' ' && grid[center][left - 1] != ' ') {
+                        boxesCompleted++;
+                    }
+                }
+                if (j < COLS) {
+                    int center = (i) * 2 + 1;
+                    int right = (j) * 2 + 1;
+                    if (grid[center - 1][right] != ' ' && grid[center + 1][right] != ' ' && grid[center][right + 1] != ' ') {
+                        boxesCompleted++;
+                    }
+                }
+                
+                if (boxesCompleted > 0) {
+                    *x1 = i;
+                    *y1 = j;
+                    *x2 = i + 1;
+                    *y2 = j;
+                    return;
+                }
+            }
+        }
+    }
+
+    RandBot(x1, y1, x2, y2);
+}
 
 
 void RandBot(int *x1, int *y1, int *x2, int *y2)
