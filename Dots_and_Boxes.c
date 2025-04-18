@@ -331,7 +331,7 @@ int main()
     char gameMode = ' ';
 
     gameMode = ChooseGameMode(&botPlayer);
-    bool playAgainstBot = (gameMode == 'E' || gameMode == 'M');
+    bool playAgainstBot = (gameMode == 'E' || gameMode == 'M' || gameMode == 'H');
     bool boxCompleted = false;
 
     while (!IsGameOver())
