@@ -200,6 +200,7 @@ char ChooseGameMode(char *botPlayer) {
         printf("Choose bot difficulty: \n");
         printf("E for Easy Mode \n");
         printf("M for Medium Mode \n");
+        printf("H for Hard Mode \n");
         scanf(" %c", &choice);
         choice = toupper(choice);
 
@@ -343,8 +344,12 @@ int main()
         if (playAgainstBot && currentplayer == botPlayer) {
             if (gameMode == 'E') {
                 RandBot(&x1, &y1, &x2, &y2); // Easy bot
-            } else {
+            } 
+            else if (gameMode == 'M') {
                 MediumBot(&x1, &y1, &x2, &y2, botPlayer); // Medium bot
+            } 
+            else if (gameMode == 'H') {
+                HardBot(&x1, &y1, &x2, &y2, botPlayer); // Hard bot
             }
             printf("Bot (%c) played: (%d, %d) -> (%d, %d)\n", currentplayer, x1, y1, x2, y2);
         } 
