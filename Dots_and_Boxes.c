@@ -316,7 +316,76 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
     }
 
     RandBot(x1, y1, x2, y2);
-} /*
+}
+
+void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
+    // First, try to complete a box if possible (same as MediumBot)
+    for (int i = 0; i < DOTS_ROWS; i++) {
+        for (int j = 0; j < DOTS_COLS; j++) {
+            // Check horizontal lines
+            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ') {
+                int boxesCompleted = 0;
+                
+                // Check box above
+                if (i > 0) {
+                    int top = (i - 1) * 2 + 1;
+                    int left = j * 2 + 1;
+                    if (grid[top][left - 1] != ' ' && grid[top][left + 1] != ' ' && grid[top - 1][left] != ' ') {
+                        boxesCompleted++;
+                    }
+                }
+
+                // Check box below
+                if (i < ROWS) {
+                    int bottom = (i) * 2 + 1;
+                    int left = j * 2 + 1;
+                    if (grid[bottom][left - 1] != ' ' && grid[bottom][left + 1] != ' ' && grid[bottom + 1][left] != ' ') {
+                        boxesCompleted++;
+                    }
+                }
+                
+                if (boxesCompleted > 0) {
+                    *x1 = i;
+                    *y1 = j;
+                    *x2 = i;
+                    *y2 = j + 1;
+                    return;
+                }
+            }
+
+            // Check vertical lines
+            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ') {
+                int boxesCompleted = 0;     
+               
+                // Check box to the left
+                if (j > 0) {
+                    int center = (i) * 2 + 1;
+                    int left = (j - 1) * 2 + 1;
+                    if (grid[center - 1][left] != ' ' && grid[center + 1][left] != ' ' && grid[center][left - 1] != ' ') {
+                        boxesCompleted++;
+                    }
+                }
+                // Check box to the right
+                if (j < COLS) {
+                    int center = (i) * 2 + 1;
+                    int right = (j) * 2 + 1;
+                    if (grid[center - 1][right] != ' ' && grid[center + 1][right] != ' ' && grid[center][right + 1] != ' ') {
+                        boxesCompleted++;
+                    }
+                }
+                
+                if (boxesCompleted > 0) {
+                    *x1 = i;
+                    *y1 = j;
+                    *x2 = i + 1;
+                    *y2 = j;
+                    return;
+                }
+            }
+        }
+    }
+
+/*
 Time Complexity of this strategy:
 
 for an m x n grid of boxes (in our case it's 4 x 5) the worst time complexity is O(m.n) since the bot doesn't find any boxes to close therefore going back to choosing a move randomly using RandBot.
