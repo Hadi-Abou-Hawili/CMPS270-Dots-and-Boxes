@@ -365,6 +365,7 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
                         boxesCompleted++;
                     }
                 }
+                
                 // Check box to the right
                 if (j < COLS) {
                     int center = (i) * 2 + 1;
@@ -469,6 +470,31 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
                     bestY1 = j;
                     bestX2 = i;
                     bestY2 = j + 1;
+                }
+            }
+            // Check vertical lines
+            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ') {
+                int potential = 0;     
+               
+                if (j > 0) {
+                    int center = (i) * 2 + 1;
+                    int left = (j - 1) * 2 + 1;
+                    int sides = (grid[center - 1][left] != ' ') + (grid[center + 1][left] != ' ') + (grid[center][left - 1] != ' ');
+                    if (sides == 2) potential++;
+                }
+                if (j < COLS) {
+                    int center = (i) * 2 + 1;
+                    int right = (j) * 2 + 1;
+                    int sides = (grid[center - 1][right] != ' ') + (grid[center + 1][right] != ' ') + (grid[center][right + 1] != ' ');
+                    if (sides == 2) potential++;
+                }
+                
+                if (potential < minPotential) {
+                    minPotential = potential;
+                    bestX1 = i;
+                    bestY1 = j;
+                    bestX2 = i + 1;
+                    bestY2 = j;
                 }
             }
         }
