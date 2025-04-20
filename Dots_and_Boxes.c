@@ -498,7 +498,13 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
             }
         }
     }
-
+    if (minPotential == 0) {
+        *x1 = bestX1;
+        *y1 = bestY1;
+        *x2 = bestX2;
+        *y2 = bestY2;
+        return;
+    }
     MediumBot(x1, y1, x2, y2, botPlayer); //If all else fails go back to mediumbot strategy
 }
 
