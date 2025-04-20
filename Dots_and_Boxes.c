@@ -210,7 +210,7 @@ char ChooseGameMode(char *botPlayer) {
     
     return choice;
 }
-
+//Easy mode: this bot does random moves as long as it is valid
 void RandBot(int *x1, int *y1, int *x2, int *y2)
 {
     int PossibleMoves[DOTS_ROWS * DOTS_COLS * 2][4]; //Maximum possible moves
@@ -221,7 +221,7 @@ void RandBot(int *x1, int *y1, int *x2, int *y2)
     {
         for (int j = 0; j < DOTS_COLS; j++)
         {
-            //Horizontal
+            //Check horixantally to the right
             if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ')
             {
                 PossibleMoves[moveCount][0] = i;
@@ -230,7 +230,7 @@ void RandBot(int *x1, int *y1, int *x2, int *y2)
                 PossibleMoves[moveCount][3] = j + 1;
                 moveCount++;
             }
-            //Vertical
+            //Check vertically downwards
             if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ')
             {
                 PossibleMoves[moveCount][0] = i;
@@ -241,7 +241,7 @@ void RandBot(int *x1, int *y1, int *x2, int *y2)
             }
         }
     }
-
+    //Pick the random move
     if (moveCount > 0)
     {
         int randomIndex = rand() % moveCount;
@@ -251,16 +251,20 @@ void RandBot(int *x1, int *y1, int *x2, int *y2)
         *y2 = PossibleMoves[randomIndex][3];
     }
 }
+// Time Complexity of RandBot: Scanning: O(DOTS_ROWS * DOTS_COLS)
+//  Storing: O(1)
+//  Overall: O(DOTS_ROWS * DOTS_COL)
 
+// Medium Bot: Tries to complete a box if possible, else uses RandBot
 void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
 {
     
     for (int i = 0; i < DOTS_ROWS; i++) {
         for (int j = 0; j < DOTS_COLS; j++) {
-           
+           // Check horizontal right edge
             if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ') {
                 int boxesCompleted = 0;
-                
+                //Checking if the edge completes the box above
                 if (i > 0) {
                     int top = (i - 1) * 2 + 1;
                     int left = j * 2 + 1;
@@ -268,7 +272,7 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
                         boxesCompleted++;
                     }
                 }
-
+                //Check if the edge completes the box below
                 if (i < ROWS) {
                     int bottom = (i) * 2 + 1;
                     int left = j * 2 + 1;
@@ -276,7 +280,7 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
                         boxesCompleted++;
                     }
                 }
-                
+                //Return this move if completing a box
                 if (boxesCompleted > 0) {
                     *x1 = i;
                     *y1 = j;
@@ -285,10 +289,10 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
                     return;
                 }
             }
-
+            //Check vertical down edge
             if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ') {
                 int boxesCompleted = 0;     
-               
+               //Check if the edge completes a box to the left
                 if (j > 0) {
                     int center = (i) * 2 + 1;
                     int left = (j - 1) * 2 + 1;
@@ -296,6 +300,7 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
                         boxesCompleted++;
                     }
                 }
+                //Check if the edge completes a box to the right
                 if (j < COLS) {
                     int center = (i) * 2 + 1;
                     int right = (j) * 2 + 1;
@@ -303,7 +308,7 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
                         boxesCompleted++;
                     }
                 }
-                
+                //Return this move if completing a box
                 if (boxesCompleted > 0) {
                     *x1 = i;
                     *y1 = j;
@@ -314,10 +319,14 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
             }
         }
     }
-
+    //Use random bot if no boxes can be completed
     RandBot(x1, y1, x2, y2);
 }
+/*
+Time Complexity of this strategy:
 
+for an m x n grid of boxes (in our case it's 4 x 5) the worst time complexity is O(m.n) since the bot doesn't find any boxes to close therefore going back to choosing a move randomly using RandBot.
+*/
 void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
     // First, try to complete a box if possible (same as MediumBot)
     for (int i = 0; i < DOTS_ROWS; i++) {
@@ -508,11 +517,7 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
     MediumBot(x1, y1, x2, y2, botPlayer); //If all else fails go back to mediumbot strategy
 }
 
-/*
-Time Complexity of this strategy:
 
-for an m x n grid of boxes (in our case it's 4 x 5) the worst time complexity is O(m.n) since the bot doesn't find any boxes to close therefore going back to choosing a move randomly using RandBot.
-*/
 
 int main()
 {
