@@ -343,7 +343,7 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
                         boxesCompleted++;
                     }
                 }
-                
+                // If edge completes a box then choose it
                 if (boxesCompleted > 0) {
                     *x1 = i;
                     *y1 = j;
@@ -373,7 +373,7 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
                         boxesCompleted++;
                     }
                 }
-                
+                //if edge completes a box, choose it
                 if (boxesCompleted > 0) {
                     *x1 = i;
                     *y1 = j;
@@ -389,6 +389,7 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
             if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ') {
                 int potentialBoxes = 0;
                 
+                //check both potential adjacent boxes
                 if (i > 0) {
                     int top = (i - 1) * 2 + 1;
                     int left = j * 2 + 1;
@@ -403,6 +404,7 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
                     if (sides == 3) potentialBoxes++;
                 }
                 
+                //If it gives 2 boxes, avoid it
                 if (potentialBoxes == 2) {
                     *x1 = i;
                     *y1 = j;
@@ -427,7 +429,7 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
                     int sides = (grid[center - 1][right] != ' ') + (grid[center + 1][right] != ' ') + (grid[center][right + 1] != ' ');
                     if (sides == 3) potentialBoxes++;
                 }
-                
+                // Avoid if 2 boxes are given
                 if (potentialBoxes == 2) {
                     *x1 = i;
                     *y1 = j;
@@ -439,7 +441,7 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
         }
     }
 
-    
+    //Choosing move with minimum risk
     int minPotential = 5; 
     int bestX1, bestY1, bestX2, bestY2;
     
@@ -450,19 +452,22 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
             if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ') {
                 int potential = 0;
                 
+                //Check box above
                 if (i > 0) {
                     int top = (i - 1) * 2 + 1;
                     int left = j * 2 + 1;
                     int sides = (grid[top][left - 1] != ' ') + (grid[top][left + 1] != ' ') + (grid[top - 1][left] != ' ');
                     if (sides == 2) potential++;
                 }
-
+                //Check box below
                 if (i < ROWS) {
                     int bottom = (i) * 2 + 1;
                     int left = j * 2 + 1;
                     int sides = (grid[bottom][left - 1] != ' ') + (grid[bottom][left + 1] != ' ') + (grid[bottom + 1][left] != ' ');
                     if (sides == 2) potential++;
                 }
+
+                //Keep track of move with lowest risk
                 if (potential < minPotential) {
                     minPotential = potential;
                     bestX1 = i;
@@ -475,19 +480,21 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
             if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ') {
                 int potential = 0;     
                
+               //check left box
                 if (j > 0) {
                     int center = (i) * 2 + 1;
                     int left = (j - 1) * 2 + 1;
                     int sides = (grid[center - 1][left] != ' ') + (grid[center + 1][left] != ' ') + (grid[center][left - 1] != ' ');
                     if (sides == 2) potential++;
                 }
+                //check right box
                 if (j < COLS) {
                     int center = (i) * 2 + 1;
                     int right = (j) * 2 + 1;
                     int sides = (grid[center - 1][right] != ' ') + (grid[center + 1][right] != ' ') + (grid[center][right + 1] != ' ');
                     if (sides == 2) potential++;
                 }
-                
+                // track move with lowest risk
                 if (potential < minPotential) {
                     minPotential = potential;
                     bestX1 = i;
@@ -498,6 +505,7 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
             }
         }
     }
+    //zero risk move --> use it
     if (minPotential == 0) {
         *x1 = bestX1;
         *y1 = bestY1;
