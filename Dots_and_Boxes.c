@@ -439,6 +439,47 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
         }
     }
 
+    
+    int minPotential = 5; 
+    int bestX1, bestY1, bestX2, bestY2;
+    
+    
+    for (int i = 0; i < DOTS_ROWS; i++) {
+        for (int j = 0; j < DOTS_COLS; j++) {
+            // Check horizontal lines
+            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ') {
+                int potential = 0;
+                
+                if (i > 0) {
+                    int top = (i - 1) * 2 + 1;
+                    int left = j * 2 + 1;
+                    int sides = (grid[top][left - 1] != ' ') + (grid[top][left + 1] != ' ') + (grid[top - 1][left] != ' ');
+                    if (sides == 2) potential++;
+                }
+
+                if (i < ROWS) {
+                    int bottom = (i) * 2 + 1;
+                    int left = j * 2 + 1;
+                    int sides = (grid[bottom][left - 1] != ' ') + (grid[bottom][left + 1] != ' ') + (grid[bottom + 1][left] != ' ');
+                    if (sides == 2) potential++;
+                }
+            }
+        }
+    }
+
+    
+    if (minPotential == 0) {
+        *x1 = bestX1;
+        *y1 = bestY1;
+        *x2 = bestX2;
+        *y2 = bestY2;
+        return;
+    }
+
+    
+    MediumBot(x1, y1, x2, y2, botPlayer);
+}
+
 /*
 Time Complexity of this strategy:
 
