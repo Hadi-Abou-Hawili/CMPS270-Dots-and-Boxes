@@ -384,6 +384,60 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
             }
         }
     }
+     for (int i = 0; i < DOTS_ROWS; i++) {
+        for (int j = 0; j < DOTS_COLS; j++) {
+            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ') {
+                int potentialBoxes = 0;
+                
+                if (i > 0) {
+                    int top = (i - 1) * 2 + 1;
+                    int left = j * 2 + 1;
+                    int sides = (grid[top][left - 1] != ' ') + (grid[top][left + 1] != ' ') + (grid[top - 1][left] != ' ');
+                    if (sides == 3) potentialBoxes++;
+                }
+
+                if (i < ROWS) {
+                    int bottom = (i) * 2 + 1;
+                    int left = j * 2 + 1;
+                    int sides = (grid[bottom][left - 1] != ' ') + (grid[bottom][left + 1] != ' ') + (grid[bottom + 1][left] != ' ');
+                    if (sides == 3) potentialBoxes++;
+                }
+                
+                if (potentialBoxes == 2) {
+                    *x1 = i;
+                    *y1 = j;
+                    *x2 = i;
+                    *y2 = j + 1;
+                    return;
+                }
+            }
+
+            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ') {
+                int potentialBoxes = 0;     
+               
+                if (j > 0) {
+                    int center = (i) * 2 + 1;
+                    int left = (j - 1) * 2 + 1;
+                    int sides = (grid[center - 1][left] != ' ') + (grid[center + 1][left] != ' ') + (grid[center][left - 1] != ' ');
+                    if (sides == 3) potentialBoxes++;
+                }
+                if (j < COLS) {
+                    int center = (i) * 2 + 1;
+                    int right = (j) * 2 + 1;
+                    int sides = (grid[center - 1][right] != ' ') + (grid[center + 1][right] != ' ') + (grid[center][right + 1] != ' ');
+                    if (sides == 3) potentialBoxes++;
+                }
+                
+                if (potentialBoxes == 2) {
+                    *x1 = i;
+                    *y1 = j;
+                    *x2 = i + 1;
+                    *y2 = j;
+                    return;
+                }
+            }
+        }
+    }
 
 /*
 Time Complexity of this strategy:
