@@ -317,6 +317,11 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
 
     RandBot(x1, y1, x2, y2);
 }
+/*
+Time Complexity of this strategy:
+
+for an m x n grid of boxes (in our case it's 4 x 5) the worst time complexity is O(m.n) since the bot doesn't find any boxes to close therefore going back to choosing a move randomly using RandBot.
+*/
 
 void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
     // First, try to complete a box if possible (same as MediumBot)
@@ -515,11 +520,9 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
     }
     MediumBot(x1, y1, x2, y2, botPlayer); //If all else fails go back to mediumbot strategy
 }
-
 /*
-Time Complexity of this strategy:
-
-for an m x n grid of boxes (in our case it's 4 x 5) the worst time complexity is O(m.n) since the bot doesn't find any boxes to close therefore going back to choosing a move randomly using RandBot.
+Time complexity: O(m x n) since:
+in the worst case, no optimal moves are found, so it scans the full grid multiple times and falls back to MediumBot() and RandBot() when it fails.
 */
 
 int main()
