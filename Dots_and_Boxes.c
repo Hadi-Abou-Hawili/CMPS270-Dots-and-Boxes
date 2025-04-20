@@ -18,9 +18,9 @@ void InitializeGrid()
         for (int j = 0; j < DOTS_COLS * 2 - 1; j++)
         {
             if (i % 2 == 0 && j % 2 == 0)
-                grid[i][j] = '.';   // place dots evenly 
+                grid[i][j] = '.'; // place dots evenly
             else
-                grid[i][j] = ' ';   //empty space for lines later
+                grid[i][j] = ' '; // empty space for lines later
         }
     }
 }
@@ -30,12 +30,12 @@ void DrawGrid()
 
     printf("\n  "); // Extra spaces for alignment
 
-    for (int j = 0; j < DOTS_COLS; j++)    //print column numbers
+    for (int j = 0; j < DOTS_COLS; j++) // print column numbers
         printf("%d   ", j);
 
     printf("\n");
 
-    for (int i = 0; i < DOTS_ROWS * 2 - 1; i++)  // print rows with numbers
+    for (int i = 0; i < DOTS_ROWS * 2 - 1; i++) // print rows with numbers
     {
         if (i % 2 == 0)
             printf("%d ", i / 2);
@@ -50,7 +50,7 @@ void DrawGrid()
     }
 }
 
-void Turn(int counter, int *x1, int *y1, int *x2, int *y2)  // handles player's input for their turn 
+void Turn(int counter, int *x1, int *y1, int *x2, int *y2) // handles player's input for their turn
 {
 
     char player; // determine current player
@@ -63,7 +63,7 @@ void Turn(int counter, int *x1, int *y1, int *x2, int *y2)  // handles player's 
         player = 'B';
     }
 
-    printf("Player %c's turn. Enter the row and column of the first dot (e.g., A0 -> 0 0) and second dot:\n", player); 
+    printf("Player %c's turn. Enter the row and column of the first dot (e.g., A0 -> 0 0) and second dot:\n", player);
     while (1)
     {
         scanf("%d %d %d %d", x1, y1, x2, y2);
@@ -81,13 +81,13 @@ void Turn(int counter, int *x1, int *y1, int *x2, int *y2)  // handles player's 
     }
 }
 
-bool CheckForBox(int x, int y, char player) // check if placing a line completes a box and update score 
+bool CheckForBox(int x, int y, char player) // check if placing a line completes a box and update score
 {
     int row = x * 2 + 1, col = y * 2 + 1;
     if (row > 0 && row < DOTS_ROWS * 2 - 2 && col > 0 && col < DOTS_COLS * 2 - 2)
     {
         if (grid[row - 1][col] != ' ' && grid[row + 1][col] != ' ' &&
-            grid[row][col - 1] != ' ' && grid[row][col+1] != ' ')
+            grid[row][col - 1] != ' ' && grid[row][col + 1] != ' ')
         {
             scores[x][y] = (player == 'A') ? 1 : 2;
             grid[row][col] = player;
@@ -97,8 +97,7 @@ bool CheckForBox(int x, int y, char player) // check if placing a line completes
     return false;
 }
 
-
-bool IsGameOver()  // check if all boxes are done
+bool IsGameOver() // check if all boxes are done
 {
     for (int i = 0; i < ROWS; i++)
     {
@@ -139,22 +138,23 @@ bool PlaceLine(int x1, int y1, int x2, int y2)
     return false;
 }
 
-void Displayscores(){ //display current scores for both players
-    int scoreA = 0 ;
-    int scoreB = 0 ;
-    for(int i = 0 ; i < ROWS ; i++){
-        for(int j = 0 ; j < COLS ; j++){
-            if (scores[i][j]== 1 )
-            scoreA++; 
-            else if (scores[i][j] == 2 )
-            scoreB++;
+void Displayscores()
+{ // display current scores for both players
+    int scoreA = 0;
+    int scoreB = 0;
+    for (int i = 0; i < ROWS; i++)
+    {
+        for (int j = 0; j < COLS; j++)
+        {
+            if (scores[i][j] == 1)
+                scoreA++;
+            else if (scores[i][j] == 2)
+                scoreB++;
         }
     }
     printf("\nCurrent Score:\n");
     printf("Player A: %d boxes\n", scoreA);
     printf("Player B: %d boxes\n", scoreB);
-
-
 }
 
 void DeclareWinner()
@@ -162,20 +162,20 @@ void DeclareWinner()
     int scoreA = 0;
     int scoreB = 0;
 
-     // Loop through the entire scores grid
+    // Loop through the entire scores grid
     // Count how many boxes were completed by Player A and Player B
     for (int i = 0; i < ROWS; i++)
     {
         for (int j = 0; j < COLS; j++)
         {
-            if (scores[i][j] == 1)    // If cell belongs to Player A
+            if (scores[i][j] == 1) // If cell belongs to Player A
                 scoreA++;
-            if (scores[i][j] == 2)    // If cell belongs to Player B
+            if (scores[i][j] == 2) // If cell belongs to Player B
                 scoreB++;
         }
     }
 
-     // Print final results
+    // Print final results
     printf("\nGame Over!\n");
     printf("Player A: %d boxes\n", scoreA);
     printf("Player B: %d boxes\n", scoreB);
@@ -196,20 +196,22 @@ void DeclareWinner()
     }
 }
 
-char ChooseGameMode(char *botPlayer) {
+char ChooseGameMode(char *botPlayer)
+{
     char choice;
 
-      // Ask the user whether they want to play against a bot or another human
+    // Ask the user whether they want to play against a bot or another human
     printf("Choose game mode:\n");
     printf("Enter 'B' to play against Bot or 'H' for Human vs Human:\n");
     scanf(" %c", &choice);
 
-      // Convert the choice to uppercase to avoid case sensitivity
+    // Convert the choice to uppercase to avoid case sensitivity
     choice = toupper(choice);
-    
-      // If the user chose to play against a bot
-    if ( choice == 'B') {
-        
+
+    // If the user chose to play against a bot
+    if (choice == 'B')
+    {
+
         // Ask the user to choose the bot's difficulty level
         printf("Choose bot difficulty: \n");
         printf("E for Easy Mode \n");
@@ -218,26 +220,26 @@ char ChooseGameMode(char *botPlayer) {
         scanf(" %c", &choice);
         choice = toupper(choice);
 
-        // Randomly assign the bot to be either Player A or Player 
+        // Randomly assign the bot to be either Player A or Player
 
         *botPlayer = (rand() % 2 == 0) ? 'A' : 'B';
         printf("Bot will be Player %c\n", *botPlayer);
     }
-    
+
     return choice;
 }
-//Easy mode: this bot does random moves as long as it is valid
+// Easy mode: this bot does random moves as long as it is valid
 void RandBot(int *x1, int *y1, int *x2, int *y2)
 {
-    int PossibleMoves[DOTS_ROWS * DOTS_COLS * 2][4]; //Maximum possible moves
+    int PossibleMoves[DOTS_ROWS * DOTS_COLS * 2][4]; // Maximum possible moves
     int moveCount = 0;
 
-    //We will scan the grid for possible moves horizontally and vertically
+    // We will scan the grid for possible moves horizontally and vertically
     for (int i = 0; i < DOTS_ROWS; i++)
     {
         for (int j = 0; j < DOTS_COLS; j++)
         {
-            //Check horixantally to the right
+            // Check horixantally to the right
             if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ')
             {
                 PossibleMoves[moveCount][0] = i;
@@ -246,7 +248,7 @@ void RandBot(int *x1, int *y1, int *x2, int *y2)
                 PossibleMoves[moveCount][3] = j + 1;
                 moveCount++;
             }
-            //Check vertically downwards
+            // Check vertically downwards
             if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ')
             {
                 PossibleMoves[moveCount][0] = i;
@@ -257,7 +259,7 @@ void RandBot(int *x1, int *y1, int *x2, int *y2)
             }
         }
     }
-    //Pick the random move
+    // Pick the random move
     if (moveCount > 0)
     {
         int randomIndex = rand() % moveCount;
@@ -274,30 +276,38 @@ void RandBot(int *x1, int *y1, int *x2, int *y2)
 // Medium Bot: Tries to complete a box if possible, else uses RandBot
 void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
 {
-    
-    for (int i = 0; i < DOTS_ROWS; i++) {
-        for (int j = 0; j < DOTS_COLS; j++) {
-           // Check horizontal right edge
-            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ') {
+
+    for (int i = 0; i < DOTS_ROWS; i++)
+    {
+        for (int j = 0; j < DOTS_COLS; j++)
+        {
+            // Check horizontal right edge
+            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ')
+            {
                 int boxesCompleted = 0;
-                //Checking if the edge completes the box above
-                if (i > 0) {
+                // Checking if the edge completes the box above
+                if (i > 0)
+                {
                     int top = (i - 1) * 2 + 1;
                     int left = j * 2 + 1;
-                    if (grid[top][left - 1] != ' ' && grid[top][left + 1] != ' ' && grid[top - 1][left] != ' ') {
+                    if (grid[top][left - 1] != ' ' && grid[top][left + 1] != ' ' && grid[top - 1][left] != ' ')
+                    {
                         boxesCompleted++;
                     }
                 }
-                //Check if the edge completes the box below
-                if (i < ROWS) {
+                // Check if the edge completes the box below
+                if (i < ROWS)
+                {
                     int bottom = (i) * 2 + 1;
                     int left = j * 2 + 1;
-                    if (grid[bottom][left - 1] != ' ' && grid[bottom][left + 1] != ' ' && grid[bottom + 1][left] != ' ') {
+                    if (grid[bottom][left - 1] != ' ' && grid[bottom][left + 1] != ' ' && grid[bottom + 1][left] != ' ')
+                    {
                         boxesCompleted++;
                     }
                 }
-                //Return this move if completing a box
-                if (boxesCompleted > 0) {
+                // Return this move if completing a box
+                if (boxesCompleted > 0)
+                {
                     *x1 = i;
                     *y1 = j;
                     *x2 = i;
@@ -305,27 +315,33 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
                     return;
                 }
             }
-            //Check vertical down edge
-            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ') {
-                int boxesCompleted = 0;     
-               //Check if the edge completes a box to the left
-                if (j > 0) {
+            // Check vertical down edge
+            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ')
+            {
+                int boxesCompleted = 0;
+                // Check if the edge completes a box to the left
+                if (j > 0)
+                {
                     int center = (i) * 2 + 1;
                     int left = (j - 1) * 2 + 1;
-                    if (grid[center - 1][left] != ' ' && grid[center + 1][left] != ' ' && grid[center][left - 1] != ' ') {
+                    if (grid[center - 1][left] != ' ' && grid[center + 1][left] != ' ' && grid[center][left - 1] != ' ')
+                    {
                         boxesCompleted++;
                     }
                 }
-                //Check if the edge completes a box to the right
-                if (j < COLS) {
+                // Check if the edge completes a box to the right
+                if (j < COLS)
+                {
                     int center = (i) * 2 + 1;
                     int right = (j) * 2 + 1;
-                    if (grid[center - 1][right] != ' ' && grid[center + 1][right] != ' ' && grid[center][right + 1] != ' ') {
+                    if (grid[center - 1][right] != ' ' && grid[center + 1][right] != ' ' && grid[center][right + 1] != ' ')
+                    {
                         boxesCompleted++;
                     }
                 }
-                //Return this move if completing a box
-                if (boxesCompleted > 0) {
+                // Return this move if completing a box
+                if (boxesCompleted > 0)
+                {
                     *x1 = i;
                     *y1 = j;
                     *x2 = i + 1;
@@ -335,38 +351,47 @@ void MediumBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
             }
         }
     }
-    //Use random bot if no boxes can be completed
+    // Use random bot if no boxes can be completed
     RandBot(x1, y1, x2, y2);
 }
 
-//for an m x n grid of boxes (in our case it's 4 x 5) the worst time complexity is O(m.n) since the bot doesn't find any boxes to close therefore going back to choosing a move randomly using RandBot.
-void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
+// for an m x n grid of boxes (in our case it's 4 x 5) the worst time complexity is O(m.n) since the bot doesn't find any boxes to close therefore going back to choosing a move randomly using RandBot.
+void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer)
+{
     // First, try to complete a box if possible (same as MediumBot)
-    for (int i = 0; i < DOTS_ROWS; i++) {
-        for (int j = 0; j < DOTS_COLS; j++) {
+    for (int i = 0; i < DOTS_ROWS; i++)
+    {
+        for (int j = 0; j < DOTS_COLS; j++)
+        {
             // Check horizontal lines
-            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ') {
+            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ')
+            {
                 int boxesCompleted = 0;
-                
+
                 // Check box above
-                if (i > 0) {
+                if (i > 0)
+                {
                     int top = (i - 1) * 2 + 1;
                     int left = j * 2 + 1;
-                    if (grid[top][left - 1] != ' ' && grid[top][left + 1] != ' ' && grid[top - 1][left] != ' ') {
+                    if (grid[top][left - 1] != ' ' && grid[top][left + 1] != ' ' && grid[top - 1][left] != ' ')
+                    {
                         boxesCompleted++;
                     }
                 }
 
                 // Check box below
-                if (i < ROWS) {
+                if (i < ROWS)
+                {
                     int bottom = (i) * 2 + 1;
                     int left = j * 2 + 1;
-                    if (grid[bottom][left - 1] != ' ' && grid[bottom][left + 1] != ' ' && grid[bottom + 1][left] != ' ') {
+                    if (grid[bottom][left - 1] != ' ' && grid[bottom][left + 1] != ' ' && grid[bottom + 1][left] != ' ')
+                    {
                         boxesCompleted++;
                     }
                 }
                 // If edge completes a box then choose it
-                if (boxesCompleted > 0) {
+                if (boxesCompleted > 0)
+                {
                     *x1 = i;
                     *y1 = j;
                     *x2 = i;
@@ -376,27 +401,33 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
             }
 
             // Check vertical lines
-            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ') {
-                int boxesCompleted = 0;     
-               
+            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ')
+            {
+                int boxesCompleted = 0;
+
                 // Check box to the left
-                if (j > 0) {
+                if (j > 0)
+                {
                     int center = (i) * 2 + 1;
                     int left = (j - 1) * 2 + 1;
-                    if (grid[center - 1][left] != ' ' && grid[center + 1][left] != ' ' && grid[center][left - 1] != ' ') {
+                    if (grid[center - 1][left] != ' ' && grid[center + 1][left] != ' ' && grid[center][left - 1] != ' ')
+                    {
                         boxesCompleted++;
                     }
                 }
                 // Check box to the right
-                if (j < COLS) {
+                if (j < COLS)
+                {
                     int center = (i) * 2 + 1;
                     int right = (j) * 2 + 1;
-                    if (grid[center - 1][right] != ' ' && grid[center + 1][right] != ' ' && grid[center][right + 1] != ' ') {
+                    if (grid[center - 1][right] != ' ' && grid[center + 1][right] != ' ' && grid[center][right + 1] != ' ')
+                    {
                         boxesCompleted++;
                     }
                 }
-                //if edge completes a box, choose it
-                if (boxesCompleted > 0) {
+                // if edge completes a box, choose it
+                if (boxesCompleted > 0)
+                {
                     *x1 = i;
                     *y1 = j;
                     *x2 = i + 1;
@@ -406,28 +437,36 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
             }
         }
     }
-     for (int i = 0; i < DOTS_ROWS; i++) {
-        for (int j = 0; j < DOTS_COLS; j++) {
-            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ') {
+    for (int i = 0; i < DOTS_ROWS; i++)
+    {
+        for (int j = 0; j < DOTS_COLS; j++)
+        {
+            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ')
+            {
                 int potentialBoxes = 0;
-                
-                //check both potential adjacent boxes
-                if (i > 0) {
+
+                // check both potential adjacent boxes
+                if (i > 0)
+                {
                     int top = (i - 1) * 2 + 1;
                     int left = j * 2 + 1;
                     int sides = (grid[top][left - 1] != ' ') + (grid[top][left + 1] != ' ') + (grid[top - 1][left] != ' ');
-                    if (sides == 3) potentialBoxes++;
+                    if (sides == 3)
+                        potentialBoxes++;
                 }
 
-                if (i < ROWS) {
+                if (i < ROWS)
+                {
                     int bottom = (i) * 2 + 1;
                     int left = j * 2 + 1;
                     int sides = (grid[bottom][left - 1] != ' ') + (grid[bottom][left + 1] != ' ') + (grid[bottom + 1][left] != ' ');
-                    if (sides == 3) potentialBoxes++;
+                    if (sides == 3)
+                        potentialBoxes++;
                 }
-                
-                //If it gives 2 boxes, avoid it
-                if (potentialBoxes == 2) {
+
+                // If it gives 2 boxes, avoid it
+                if (potentialBoxes == 2)
+                {
                     *x1 = i;
                     *y1 = j;
                     *x2 = i;
@@ -436,23 +475,29 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
                 }
             }
 
-            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ') {
-                int potentialBoxes = 0;     
-               
-                if (j > 0) {
+            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ')
+            {
+                int potentialBoxes = 0;
+
+                if (j > 0)
+                {
                     int center = (i) * 2 + 1;
                     int left = (j - 1) * 2 + 1;
                     int sides = (grid[center - 1][left] != ' ') + (grid[center + 1][left] != ' ') + (grid[center][left - 1] != ' ');
-                    if (sides == 3) potentialBoxes++;
+                    if (sides == 3)
+                        potentialBoxes++;
                 }
-                if (j < COLS) {
+                if (j < COLS)
+                {
                     int center = (i) * 2 + 1;
                     int right = (j) * 2 + 1;
                     int sides = (grid[center - 1][right] != ' ') + (grid[center + 1][right] != ' ') + (grid[center][right + 1] != ' ');
-                    if (sides == 3) potentialBoxes++;
+                    if (sides == 3)
+                        potentialBoxes++;
                 }
                 // Avoid if 2 boxes are given
-                if (potentialBoxes == 2) {
+                if (potentialBoxes == 2)
+                {
                     *x1 = i;
                     *y1 = j;
                     *x2 = i + 1;
@@ -463,34 +508,41 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
         }
     }
 
-    //Choosing move with minimum risk
-    int minPotential = 5; 
+    // Choosing move with minimum risk
+    int minPotential = 5;
     int bestX1, bestY1, bestX2, bestY2;
-    
-    
-    for (int i = 0; i < DOTS_ROWS; i++) {
-        for (int j = 0; j < DOTS_COLS; j++) {
+
+    for (int i = 0; i < DOTS_ROWS; i++)
+    {
+        for (int j = 0; j < DOTS_COLS; j++)
+        {
             // Check horizontal lines
-            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ') {
+            if (j < DOTS_COLS - 1 && grid[i * 2][j * 2 + 1] == ' ')
+            {
                 int potential = 0;
-                
-                //Check box above
-                if (i > 0) {
+
+                // Check box above
+                if (i > 0)
+                {
                     int top = (i - 1) * 2 + 1;
                     int left = j * 2 + 1;
                     int sides = (grid[top][left - 1] != ' ') + (grid[top][left + 1] != ' ') + (grid[top - 1][left] != ' ');
-                    if (sides == 2) potential++;
+                    if (sides == 2)
+                        potential++;
                 }
-                //Check box below
-                if (i < ROWS) {
+                // Check box below
+                if (i < ROWS)
+                {
                     int bottom = (i) * 2 + 1;
                     int left = j * 2 + 1;
                     int sides = (grid[bottom][left - 1] != ' ') + (grid[bottom][left + 1] != ' ') + (grid[bottom + 1][left] != ' ');
-                    if (sides == 2) potential++;
+                    if (sides == 2)
+                        potential++;
                 }
 
-                //Keep track of move with lowest risk
-                if (potential < minPotential) {
+                // Keep track of move with lowest risk
+                if (potential < minPotential)
+                {
                     minPotential = potential;
                     bestX1 = i;
                     bestY1 = j;
@@ -499,25 +551,31 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
                 }
             }
             // Check vertical lines
-            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ') {
-                int potential = 0;     
-               
-               //check left box
-                if (j > 0) {
+            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ')
+            {
+                int potential = 0;
+
+                // check left box
+                if (j > 0)
+                {
                     int center = (i) * 2 + 1;
                     int left = (j - 1) * 2 + 1;
                     int sides = (grid[center - 1][left] != ' ') + (grid[center + 1][left] != ' ') + (grid[center][left - 1] != ' ');
-                    if (sides == 2) potential++;
+                    if (sides == 2)
+                        potential++;
                 }
-                //check right box
-                if (j < COLS) {
+                // check right box
+                if (j < COLS)
+                {
                     int center = (i) * 2 + 1;
                     int right = (j) * 2 + 1;
                     int sides = (grid[center - 1][right] != ' ') + (grid[center + 1][right] != ' ') + (grid[center][right + 1] != ' ');
-                    if (sides == 2) potential++;
+                    if (sides == 2)
+                        potential++;
                 }
                 // track move with lowest risk
-                if (potential < minPotential) {
+                if (potential < minPotential)
+                {
                     minPotential = potential;
                     bestX1 = i;
                     bestY1 = j;
@@ -527,15 +585,16 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
             }
         }
     }
-    //zero risk move --> use it
-    if (minPotential == 0) {
+    // zero risk move --> use it
+    if (minPotential == 0)
+    {
         *x1 = bestX1;
         *y1 = bestY1;
         *x2 = bestX2;
         *y2 = bestY2;
         return;
     }
-    MediumBot(x1, y1, x2, y2, botPlayer); //If all else fails go back to mediumbot strategy
+    MediumBot(x1, y1, x2, y2, botPlayer); // If all else fails go back to mediumbot strategy
 }
 
 /*
@@ -546,15 +605,14 @@ for an m x n grid of boxes (in our case it's 4 x 5) the worst time complexity is
 
 int main()
 {
-    InitializeGrid();       // Initialize the grid 
+    InitializeGrid(); // Initialize the grid
 
     //  variables
     int turn = 0, x1, y1, x2, y2;
     char currentplayer;
-    char botPlayer = ' ';    //  (either 'A' or 'B')
-    char gameMode = ' ';     //  PvP or difficulty level if vs bot
+    char botPlayer = ' '; //  (either 'A' or 'B')
+    char gameMode = ' ';  //  PvP or difficulty level if vs bot
 
-    
     gameMode = ChooseGameMode(&botPlayer); // set up game mod
     bool playAgainstBot = (gameMode == 'E' || gameMode == 'M' || gameMode == 'H');
     bool boxCompleted = false;
@@ -564,41 +622,42 @@ int main()
         // Display the current grid and player scores
         DrawGrid();
         Displayscores();
-        currentplayer = (turn % 2 == 0) ? 'A' : 'B';    // Determine  player based on turn count
+        currentplayer = (turn % 2 == 0) ? 'A' : 'B'; // Determine  player based on turn count
 
-            // Handle bot's turn if playing against a bot
-        if (playAgainstBot && currentplayer == botPlayer) {
-            if (gameMode == 'E') {
+        // Handle bot's turn if playing against a bot
+        if (playAgainstBot && currentplayer == botPlayer)
+        {
+            if (gameMode == 'E')
+            {
                 RandBot(&x1, &y1, &x2, &y2); // Easy bot
-            } 
-            else if (gameMode == 'M') {
+            }
+            else if (gameMode == 'M')
+            {
                 MediumBot(&x1, &y1, &x2, &y2, botPlayer); // Medium bot
-            } 
-            else if (gameMode == 'H') {
+            }
+            else if (gameMode == 'H')
+            {
                 HardBot(&x1, &y1, &x2, &y2, botPlayer); // Hard bot
             }
             printf("Bot (%c) played: (%d, %d) -> (%d, %d)\n", currentplayer, x1, y1, x2, y2);
-        } 
-        else {
+        }
+        else
+        {
             Turn(turn, &x1, &y1, &x2, &y2); // Human's move
         }
 
-
-
-       // Try to place a line; if valid
+        // Try to place a line; if valid
         if (PlaceLine(x1, y1, x2, y2))
         {
             boxCompleted = false;
 
+            // Determine position of the line placed
 
-       // Determine position of the line placed
-
-            if (x1 == x2)  // Vertical line
+            if (x1 == x2) // Vertical line
             {
                 int y = (y1 < y2) ? y1 : y2;
 
-
-                  // Check for boxes to the left and right of the vertical line
+                // Check for boxes to the left and right of the vertical line
 
                 if (x1 > 0)
                     boxCompleted |= CheckForBox(x1 - 1, y, currentplayer);
@@ -606,11 +665,11 @@ int main()
                 if (x1 < ROWS)
                     boxCompleted |= CheckForBox(x1, y, currentplayer);
             }
-            else   // Horizontal line
+            else // Horizontal line
             {
                 int x = (x1 < x2) ? x1 : x2;
 
-                 // Check for boxes above and below the horizontal line
+                // Check for boxes above and below the horizontal line
 
                 if (y1 > 0)
                     boxCompleted |= CheckForBox(x, y1 - 1, currentplayer);
@@ -633,5 +692,4 @@ int main()
     return 0;
 }
 
-
-//Github page: https://github.com/Hadi-Abou-Hawili/CMPS270-Dots-and-Boxes
+// Github page: https://github.com/Hadi-Abou-Hawili/CMPS270-Dots-and-Boxes
