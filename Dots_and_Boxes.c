@@ -18,9 +18,9 @@ void InitializeGrid()
         for (int j = 0; j < DOTS_COLS * 2 - 1; j++)
         {
             if (i % 2 == 0 && j % 2 == 0)
-                grid[i][j] = '.';
+                grid[i][j] = '.';   // place dots evenly 
             else
-                grid[i][j] = ' ';
+                grid[i][j] = ' ';   //empty space for lines later
         }
     }
 }
@@ -30,12 +30,12 @@ void DrawGrid()
 
     printf("\n  "); // Extra spaces for alignment
 
-    for (int j = 0; j < DOTS_COLS; j++)
+    for (int j = 0; j < DOTS_COLS; j++)    //print column numbers
         printf("%d   ", j);
 
     printf("\n");
 
-    for (int i = 0; i < DOTS_ROWS * 2 - 1; i++)
+    for (int i = 0; i < DOTS_ROWS * 2 - 1; i++)  // print rows with numbers
     {
         if (i % 2 == 0)
             printf("%d ", i / 2);
@@ -50,10 +50,10 @@ void DrawGrid()
     }
 }
 
-void Turn(int counter, int *x1, int *y1, int *x2, int *y2)
+void Turn(int counter, int *x1, int *y1, int *x2, int *y2)  // handles player's input for their turn 
 {
 
-    char player;
+    char player; // determine current player
     if (counter % 2 == 0)
     {
         player = 'A';
@@ -63,7 +63,7 @@ void Turn(int counter, int *x1, int *y1, int *x2, int *y2)
         player = 'B';
     }
 
-    printf("Player %c's turn. Enter the row and column of the first dot (e.g., A0 -> 0 0) and second dot:\n", player);
+    printf("Player %c's turn. Enter the row and column of the first dot (e.g., A0 -> 0 0) and second dot:\n", player); 
     while (1)
     {
         scanf("%d %d %d %d", x1, y1, x2, y2);
@@ -81,7 +81,7 @@ void Turn(int counter, int *x1, int *y1, int *x2, int *y2)
     }
 }
 
-bool CheckForBox(int x, int y, char player)
+bool CheckForBox(int x, int y, char player) // check if placing a line completes a box and update score 
 {
     int row = x * 2 + 1, col = y * 2 + 1;
     if (row > 0 && row < DOTS_ROWS * 2 - 2 && col > 0 && col < DOTS_COLS * 2 - 2)
@@ -98,7 +98,7 @@ bool CheckForBox(int x, int y, char player)
 }
 
 
-bool IsGameOver()
+bool IsGameOver()  // check if all boxes are done
 {
     for (int i = 0; i < ROWS; i++)
     {
@@ -139,7 +139,7 @@ bool PlaceLine(int x1, int y1, int x2, int y2)
     return false;
 }
 
-void Displayscores(){
+void Displayscores(){ //display current scores for both players
     int scoreA = 0 ;
     int scoreB = 0 ;
     for(int i = 0 ; i < ROWS ; i++){
@@ -365,7 +365,6 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
                         boxesCompleted++;
                     }
                 }
-                
                 // Check box to the right
                 if (j < COLS) {
                     int center = (i) * 2 + 1;
@@ -472,31 +471,6 @@ void HardBot(int *x1, int *y1, int *x2, int *y2, char botPlayer) {
                     bestY2 = j + 1;
                 }
             }
-            // Check vertical lines
-            if (i < DOTS_ROWS - 1 && grid[i * 2 + 1][j * 2] == ' ') {
-                int potential = 0;     
-               
-                if (j > 0) {
-                    int center = (i) * 2 + 1;
-                    int left = (j - 1) * 2 + 1;
-                    int sides = (grid[center - 1][left] != ' ') + (grid[center + 1][left] != ' ') + (grid[center][left - 1] != ' ');
-                    if (sides == 2) potential++;
-                }
-                if (j < COLS) {
-                    int center = (i) * 2 + 1;
-                    int right = (j) * 2 + 1;
-                    int sides = (grid[center - 1][right] != ' ') + (grid[center + 1][right] != ' ') + (grid[center][right + 1] != ' ');
-                    if (sides == 2) potential++;
-                }
-                
-                if (potential < minPotential) {
-                    minPotential = potential;
-                    bestX1 = i;
-                    bestY1 = j;
-                    bestX2 = i + 1;
-                    bestY2 = j;
-                }
-            }
         }
     }
 
@@ -517,7 +491,7 @@ int main()
     char botPlayer = ' ';
     char gameMode = ' ';
 
-    gameMode = ChooseGameMode(&botPlayer);
+    gameMode = ChooseGameMode(&botPlayer); // set up game mod
     bool playAgainstBot = (gameMode == 'E' || gameMode == 'M' || gameMode == 'H');
     bool boxCompleted = false;
 
