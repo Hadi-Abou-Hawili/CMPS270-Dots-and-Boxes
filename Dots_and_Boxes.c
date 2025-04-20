@@ -161,19 +161,26 @@ void DeclareWinner()
 {
     int scoreA = 0;
     int scoreB = 0;
+
+     // Loop through the entire scores grid
+    // Count how many boxes were completed by Player A and Player B
     for (int i = 0; i < ROWS; i++)
     {
         for (int j = 0; j < COLS; j++)
         {
-            if (scores[i][j] == 1)
+            if (scores[i][j] == 1)    // If cell belongs to Player A
                 scoreA++;
-            if (scores[i][j] == 2)
+            if (scores[i][j] == 2)    // If cell belongs to Player B
                 scoreB++;
         }
     }
+
+     // Print final results
     printf("\nGame Over!\n");
     printf("Player A: %d boxes\n", scoreA);
     printf("Player B: %d boxes\n", scoreB);
+
+    // Compare scores and declare winner
 
     if (scoreA > scoreB)
     {
@@ -191,18 +198,27 @@ void DeclareWinner()
 
 char ChooseGameMode(char *botPlayer) {
     char choice;
+
+      // Ask the user whether they want to play against a bot or another human
     printf("Choose game mode:\n");
     printf("Enter 'B' to play against Bot or 'H' for Human vs Human:\n");
     scanf(" %c", &choice);
+
+      // Convert the choice to uppercase to avoid case sensitivity
     choice = toupper(choice);
     
+      // If the user chose to play against a bot
     if ( choice == 'B') {
+        
+        // Ask the user to choose the bot's difficulty level
         printf("Choose bot difficulty: \n");
         printf("E for Easy Mode \n");
         printf("M for Medium Mode \n");
         printf("H for Hard Mode \n");
         scanf(" %c", &choice);
         choice = toupper(choice);
+
+        // Randomly assign the bot to be either Player A or Player 
 
         *botPlayer = (rand() % 2 == 0) ? 'A' : 'B';
         printf("Bot will be Player %c\n", *botPlayer);
@@ -516,23 +532,27 @@ for an m x n grid of boxes (in our case it's 4 x 5) the worst time complexity is
 
 int main()
 {
-    InitializeGrid();
+    InitializeGrid();       // Initialize the grid 
+
+    //  variables
     int turn = 0, x1, y1, x2, y2;
     char currentplayer;
-    char botPlayer = ' ';
-    char gameMode = ' ';
+    char botPlayer = ' ';    //  (either 'A' or 'B')
+    char gameMode = ' ';     //  PvP or difficulty level if vs bot
 
+    
     gameMode = ChooseGameMode(&botPlayer); // set up game mod
     bool playAgainstBot = (gameMode == 'E' || gameMode == 'M' || gameMode == 'H');
     bool boxCompleted = false;
 
     while (!IsGameOver())
     {
+        // Display the current grid and player scores
         DrawGrid();
         Displayscores();
-        currentplayer = (turn % 2 == 0) ? 'A' : 'B';
+        currentplayer = (turn % 2 == 0) ? 'A' : 'B';    // Determine  player based on turn count
 
-
+            // Handle bot's turn if playing against a bot
         if (playAgainstBot && currentplayer == botPlayer) {
             if (gameMode == 'E') {
                 RandBot(&x1, &y1, &x2, &y2); // Easy bot
@@ -551,14 +571,20 @@ int main()
 
 
 
-
+       // Try to place a line; if valid
         if (PlaceLine(x1, y1, x2, y2))
         {
             boxCompleted = false;
 
-            if (x1 == x2)
+
+       // Determine position of the line placed
+
+            if (x1 == x2)  // Vertical line
             {
                 int y = (y1 < y2) ? y1 : y2;
+
+
+                  // Check for boxes to the left and right of the vertical line
 
                 if (x1 > 0)
                     boxCompleted |= CheckForBox(x1 - 1, y, currentplayer);
@@ -566,9 +592,11 @@ int main()
                 if (x1 < ROWS)
                     boxCompleted |= CheckForBox(x1, y, currentplayer);
             }
-            else
+            else   // Horizontal line
             {
                 int x = (x1 < x2) ? x1 : x2;
+
+                 // Check for boxes above and below the horizontal line
 
                 if (y1 > 0)
                     boxCompleted |= CheckForBox(x, y1 - 1, currentplayer);
